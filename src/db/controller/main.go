@@ -1,24 +1,20 @@
-package model
+package main
 
 import (
-	"../utils"
+	"database/sql"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 )
 
-// User 结构体
-type User struct {
-	ID       int
-	Username string
-	Password string
-	Email    string
-}
+func main() {
+	db, err := sql.Open("mysql", "root:admin@tcp(127.0.0.1:3306)/test3?charset=utf8")
+	if err != nil {
+		fmt.Printf("connect mysql fail ! [%s]", err)
+	} else {
+		fmt.Println("connect to mysql success")
+	}
 
-// insert
-func (iser *User) saveUser() error {
-	sqlString := "insert into user (username,`password`,email) values(?,?,?);"
-	fmt.Print(sqlString)
-
-	rows, err := utils.Db.Query("select id,username from user_info")
+	rows, err := db.Query("select id,username from user")
 	if err != nil {
 		fmt.Printf("select fail [%s]", err)
 	}
