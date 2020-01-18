@@ -11,11 +11,8 @@ import (
 func main() {
 	mux := http.NewServeMux()
 
-	server := &http.Server{
-		Addr:    ":8080",
-		Handler: mux,
-	}
-
+	server := &http.Server{Addr: ":8080", Handler: mux}
+	log.Print("111")
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello World!"))
 	})

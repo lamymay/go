@@ -15,7 +15,6 @@ func main() {
 //
 //返回值的表达方式，我们知道根据是否提前声明有两种方式：一种是func test() int 另一种是 func test() (i int)，所以两种情况都来说说
 
-
 //3.defer定义和执行两个步骤，做的事情。
 func defer_call() {
 	defer func() { fmt.Println("打印前") }()
