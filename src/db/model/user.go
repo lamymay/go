@@ -1,7 +1,7 @@
 package model
 
 import (
-	"../utils"
+	"database/sql"
 	"fmt"
 )
 
@@ -13,32 +13,82 @@ type User struct {
 	Email    string
 }
 
-// insert
-func (iser *User) saveUser() error {
-	sqlString := "insert into user (username,`password`,email) values(?,?,?);"
-	fmt.Print(sqlString)
+func (user *User) AddUser() error {
+	//1、写sql
+	sqlString := "insert into user (username,password,email) values(?,?,?)"
+	//2、预编译
 
-	rows, err := utils.Db.Query("select id,username from user_info")
+	db, err := sql.Open("mysql", "root:admin@tcp(127.0.0.1:3306)/test3?charset=utf8")
+	insertStm, err := db.Prepare(sqlString)
+
+	//编译异常
 	if err != nil {
-		fmt.Printf("select fail [%s]", err)
+		fmt.Println(err)
+		return err
+	}
+	//3、执行
+	_, err2 := insertStm.Exec("root2", "ppp", "123qq.com")
+
+	if err2 != nil {
+		fmt.Println("执行出现异常", err2)
+		return err2
+	}
+	return nil
+}
+
+func sayHello() error {
+	fmt.Println("sayHello -------------")
+	return nil
+}
+
+func sayHello2() error {
+	fmt.Println("sayHello222 -------------")
+	//1、写sql
+	sqlString := "insert into user (username,password,email) values(?,?,?)"
+	//2、预编译
+
+	db, err := sql.Open("mysql", "root:admin@tcp(127.0.0.1:3306)/test3?charset=utf8")
+	insertStm, err := db.Prepare(sqlString)
+
+	//编译异常
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	//3、执行
+	_, err2 := insertStm.Exec("root2", "ppp", "123qq.com")
+
+	if err2 != nil {
+		fmt.Println("执行出现异常", err2)
+		return err2
+	}
+	return nil
+}
+
+func (user *User) GetUserByID(*User, error) {
+
+	selectUserById := "select id,username,email from user where  id =?"
+
+	db, err := sql.Open("mysql", "root:admin@tcp(127.0.0.1:3306)/test3?charset=utf8")
+
+	row := db.QueryRow(selectUserById, user.ID)
+
+	var id int
+	var username string
+	var password string
+	var email string
+
+	err2 := row.Scan(&id, &username, &password, &email)
+	if err != nil {
+		return nil, err2
+	}
+	u := &User{
+		ID:       id,
+		Username: username,
+		Password: password,
+		Email:    email,
 	}
 
-	var mapUser map[string]int
-	mapUser = make(map[string]int)
-
-	for rows.Next() {
-		var id int
-		var username string
-		rows.Columns()
-		err := rows.Scan(&id, &username)
-		if err != nil {
-			fmt.Printf("get user info error [%s]", err)
-		}
-		mapUser[username] = id
-	}
-
-	for k, v := range mapUser {
-		fmt.Println(k, v)
-	}
+	return u, nil
 
 }

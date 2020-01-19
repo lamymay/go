@@ -19,8 +19,8 @@ func main() {
 		fmt.Printf("select fail [%s]", err)
 	}
 
-	var mapUser map[string]int
-	mapUser = make(map[string]int)
+	var user map[string]int
+	user = make(map[string]int)
 
 	for rows.Next() {
 		var id int
@@ -30,10 +30,10 @@ func main() {
 		if err != nil {
 			fmt.Printf("get user info error [%s]", err)
 		}
-		mapUser[username] = id
+		user[username] = id
 	}
 
-	for k, v := range mapUser {
+	for k, v := range user {
 		fmt.Println(k, v)
 	}
 
