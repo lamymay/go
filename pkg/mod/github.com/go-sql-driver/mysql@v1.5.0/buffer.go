@@ -136,7 +136,7 @@ func (b *buffer) takeBuffer(length int) ([]byte, error) {
 		return nil, ErrBusyBuffer
 	}
 
-	// test (cheap) general case first
+	// controller model utils zero (cheap) general case first
 	if length <= cap(b.buf) {
 		return b.buf[:length], nil
 	}

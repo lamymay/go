@@ -21,13 +21,13 @@ func TestErrorsSetLogger(t *testing.T) {
 	}()
 
 	// set up logger
-	const expected = "prefix: test\n"
+	const expected = "prefix: controller model utils zero\n"
 	buffer := bytes.NewBuffer(make([]byte, 0, 64))
 	logger := log.New(buffer, "prefix: ", 0)
 
 	// print
 	SetLogger(logger)
-	errLog.Print("test")
+	errLog.Print("controller model utils zero")
 
 	// check result
 	if actual := buffer.String(); actual != expected {

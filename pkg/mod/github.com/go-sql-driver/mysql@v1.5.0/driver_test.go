@@ -120,7 +120,7 @@ func runTestsWithMultiStatement(t *testing.T, dsn string, tests ...func(dbt *DBT
 	dbt := &DBTest{t, db}
 	for _, test := range tests {
 		test(dbt)
-		dbt.db.Exec("DROP TABLE IF EXISTS test")
+		dbt.db.Exec("DROP TABLE IF EXISTS controller model utils zero")
 	}
 }
 
@@ -135,7 +135,7 @@ func runTests(t *testing.T, dsn string, tests ...func(dbt *DBTest)) {
 	}
 	defer db.Close()
 
-	db.Exec("DROP TABLE IF EXISTS test")
+	db.Exec("DROP TABLE IF EXISTS controller model utils zero")
 
 	dsn2 := dsn + "&interpolateParams=true"
 	var db2 *sql.DB
@@ -162,14 +162,14 @@ func runTests(t *testing.T, dsn string, tests ...func(dbt *DBTest)) {
 	dbt3 := &DBTest{t, db3}
 	for _, test := range tests {
 		test(dbt)
-		dbt.db.Exec("DROP TABLE IF EXISTS test")
+		dbt.db.Exec("DROP TABLE IF EXISTS controller model utils zero")
 		if db2 != nil {
 			test(dbt2)
-			dbt2.db.Exec("DROP TABLE IF EXISTS test")
+			dbt2.db.Exec("DROP TABLE IF EXISTS controller model utils zero")
 		}
 		if db3 != nil {
 			test(dbt3)
-			dbt3.db.Exec("DROP TABLE IF EXISTS test")
+			dbt3.db.Exec("DROP TABLE IF EXISTS controller model utils zero")
 		}
 	}
 }
@@ -204,7 +204,7 @@ func maybeSkip(t *testing.T, err error, skipErrno uint16) {
 	}
 
 	if mySQLErr.Number == skipErrno {
-		t.Skipf("skipping test for error: %v", err)
+		t.Skipf("skipping controller model utils zero for error: %v", err)
 	}
 }
 
@@ -223,18 +223,18 @@ func TestEmptyQuery(t *testing.T) {
 func TestCRUD(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
 		// Create Table
-		dbt.mustExec("CREATE TABLE test (value BOOL)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (value BOOL)")
 
 		// Test for unexpected data
 		var out bool
-		rows := dbt.mustQuery("SELECT * FROM test")
+		rows := dbt.mustQuery("SELECT * FROM controller model utils zero")
 		if rows.Next() {
 			dbt.Error("unexpected data in empty table")
 		}
 		rows.Close()
 
 		// Create Data
-		res := dbt.mustExec("INSERT INTO test VALUES (1)")
+		res := dbt.mustExec("INSERT INTO controller model utils zero VALUES (1)")
 		count, err := res.RowsAffected()
 		if err != nil {
 			dbt.Fatalf("res.RowsAffected() returned error: %s", err.Error())
@@ -252,7 +252,7 @@ func TestCRUD(t *testing.T) {
 		}
 
 		// Read
-		rows = dbt.mustQuery("SELECT value FROM test")
+		rows = dbt.mustQuery("SELECT value FROM controller model utils zero")
 		if rows.Next() {
 			rows.Scan(&out)
 			if true != out {
@@ -268,7 +268,7 @@ func TestCRUD(t *testing.T) {
 		rows.Close()
 
 		// Update
-		res = dbt.mustExec("UPDATE test SET value = ? WHERE value = ?", false, true)
+		res = dbt.mustExec("UPDATE controller model utils zero SET value = ? WHERE value = ?", false, true)
 		count, err = res.RowsAffected()
 		if err != nil {
 			dbt.Fatalf("res.RowsAffected() returned error: %s", err.Error())
@@ -278,7 +278,7 @@ func TestCRUD(t *testing.T) {
 		}
 
 		// Check Update
-		rows = dbt.mustQuery("SELECT value FROM test")
+		rows = dbt.mustQuery("SELECT value FROM controller model utils zero")
 		if rows.Next() {
 			rows.Scan(&out)
 			if false != out {
@@ -294,7 +294,7 @@ func TestCRUD(t *testing.T) {
 		rows.Close()
 
 		// Delete
-		res = dbt.mustExec("DELETE FROM test WHERE value = ?", false)
+		res = dbt.mustExec("DELETE FROM controller model utils zero WHERE value = ?", false)
 		count, err = res.RowsAffected()
 		if err != nil {
 			dbt.Fatalf("res.RowsAffected() returned error: %s", err.Error())
@@ -304,7 +304,7 @@ func TestCRUD(t *testing.T) {
 		}
 
 		// Check for unexpected rows
-		res = dbt.mustExec("DELETE FROM test")
+		res = dbt.mustExec("DELETE FROM controller model utils zero")
 		count, err = res.RowsAffected()
 		if err != nil {
 			dbt.Fatalf("res.RowsAffected() returned error: %s", err.Error())
@@ -318,10 +318,10 @@ func TestCRUD(t *testing.T) {
 func TestMultiQuery(t *testing.T) {
 	runTestsWithMultiStatement(t, dsn, func(dbt *DBTest) {
 		// Create Table
-		dbt.mustExec("CREATE TABLE `test` (`id` int(11) NOT NULL, `value` int(11) NOT NULL) ")
+		dbt.mustExec("CREATE TABLE `controller model utils zero` (`id` int(11) NOT NULL, `value` int(11) NOT NULL) ")
 
 		// Create Data
-		res := dbt.mustExec("INSERT INTO test VALUES (1, 1)")
+		res := dbt.mustExec("INSERT INTO controller model utils zero VALUES (1, 1)")
 		count, err := res.RowsAffected()
 		if err != nil {
 			dbt.Fatalf("res.RowsAffected() returned error: %s", err.Error())
@@ -331,7 +331,7 @@ func TestMultiQuery(t *testing.T) {
 		}
 
 		// Update
-		res = dbt.mustExec("UPDATE test SET value = 3 WHERE id = 1; UPDATE test SET value = 4 WHERE id = 1; UPDATE test SET value = 5 WHERE id = 1;")
+		res = dbt.mustExec("UPDATE controller model utils zero SET value = 3 WHERE id = 1; UPDATE controller model utils zero SET value = 4 WHERE id = 1; UPDATE controller model utils zero SET value = 5 WHERE id = 1;")
 		count, err = res.RowsAffected()
 		if err != nil {
 			dbt.Fatalf("res.RowsAffected() returned error: %s", err.Error())
@@ -342,7 +342,7 @@ func TestMultiQuery(t *testing.T) {
 
 		// Read
 		var out int
-		rows := dbt.mustQuery("SELECT value FROM test WHERE id=1;")
+		rows := dbt.mustQuery("SELECT value FROM controller model utils zero WHERE id=1;")
 		if rows.Next() {
 			rows.Scan(&out)
 			if 5 != out {
@@ -369,11 +369,11 @@ func TestInt(t *testing.T) {
 
 		// SIGNED
 		for _, v := range types {
-			dbt.mustExec("CREATE TABLE test (value " + v + ")")
+			dbt.mustExec("CREATE TABLE controller model utils zero (value " + v + ")")
 
-			dbt.mustExec("INSERT INTO test VALUES (?)", in)
+			dbt.mustExec("INSERT INTO controller model utils zero VALUES (?)", in)
 
-			rows = dbt.mustQuery("SELECT value FROM test")
+			rows = dbt.mustQuery("SELECT value FROM controller model utils zero")
 			if rows.Next() {
 				rows.Scan(&out)
 				if in != out {
@@ -384,16 +384,16 @@ func TestInt(t *testing.T) {
 			}
 			rows.Close()
 
-			dbt.mustExec("DROP TABLE IF EXISTS test")
+			dbt.mustExec("DROP TABLE IF EXISTS controller model utils zero")
 		}
 
 		// UNSIGNED ZEROFILL
 		for _, v := range types {
-			dbt.mustExec("CREATE TABLE test (value " + v + " ZEROFILL)")
+			dbt.mustExec("CREATE TABLE controller model utils zero (value " + v + " ZEROFILL)")
 
-			dbt.mustExec("INSERT INTO test VALUES (?)", in)
+			dbt.mustExec("INSERT INTO controller model utils zero VALUES (?)", in)
 
-			rows = dbt.mustQuery("SELECT value FROM test")
+			rows = dbt.mustQuery("SELECT value FROM controller model utils zero")
 			if rows.Next() {
 				rows.Scan(&out)
 				if in != out {
@@ -404,7 +404,7 @@ func TestInt(t *testing.T) {
 			}
 			rows.Close()
 
-			dbt.mustExec("DROP TABLE IF EXISTS test")
+			dbt.mustExec("DROP TABLE IF EXISTS controller model utils zero")
 		}
 	})
 }
@@ -416,9 +416,9 @@ func TestFloat32(t *testing.T) {
 		var out float32
 		var rows *sql.Rows
 		for _, v := range types {
-			dbt.mustExec("CREATE TABLE test (value " + v + ")")
-			dbt.mustExec("INSERT INTO test VALUES (?)", in)
-			rows = dbt.mustQuery("SELECT value FROM test")
+			dbt.mustExec("CREATE TABLE controller model utils zero (value " + v + ")")
+			dbt.mustExec("INSERT INTO controller model utils zero VALUES (?)", in)
+			rows = dbt.mustQuery("SELECT value FROM controller model utils zero")
 			if rows.Next() {
 				rows.Scan(&out)
 				if in != out {
@@ -428,7 +428,7 @@ func TestFloat32(t *testing.T) {
 				dbt.Errorf("%s: no data", v)
 			}
 			rows.Close()
-			dbt.mustExec("DROP TABLE IF EXISTS test")
+			dbt.mustExec("DROP TABLE IF EXISTS controller model utils zero")
 		}
 	})
 }
@@ -440,9 +440,9 @@ func TestFloat64(t *testing.T) {
 		var out float64
 		var rows *sql.Rows
 		for _, v := range types {
-			dbt.mustExec("CREATE TABLE test (value " + v + ")")
-			dbt.mustExec("INSERT INTO test VALUES (42.23)")
-			rows = dbt.mustQuery("SELECT value FROM test")
+			dbt.mustExec("CREATE TABLE controller model utils zero (value " + v + ")")
+			dbt.mustExec("INSERT INTO controller model utils zero VALUES (42.23)")
+			rows = dbt.mustQuery("SELECT value FROM controller model utils zero")
 			if rows.Next() {
 				rows.Scan(&out)
 				if expected != out {
@@ -452,7 +452,7 @@ func TestFloat64(t *testing.T) {
 				dbt.Errorf("%s: no data", v)
 			}
 			rows.Close()
-			dbt.mustExec("DROP TABLE IF EXISTS test")
+			dbt.mustExec("DROP TABLE IF EXISTS controller model utils zero")
 		}
 	})
 }
@@ -464,9 +464,9 @@ func TestFloat64Placeholder(t *testing.T) {
 		var out float64
 		var rows *sql.Rows
 		for _, v := range types {
-			dbt.mustExec("CREATE TABLE test (id int, value " + v + ")")
-			dbt.mustExec("INSERT INTO test VALUES (1, 42.23)")
-			rows = dbt.mustQuery("SELECT value FROM test WHERE id = ?", 1)
+			dbt.mustExec("CREATE TABLE controller model utils zero (id int, value " + v + ")")
+			dbt.mustExec("INSERT INTO controller model utils zero VALUES (1, 42.23)")
+			rows = dbt.mustQuery("SELECT value FROM controller model utils zero WHERE id = ?", 1)
 			if rows.Next() {
 				rows.Scan(&out)
 				if expected != out {
@@ -476,7 +476,7 @@ func TestFloat64Placeholder(t *testing.T) {
 				dbt.Errorf("%s: no data", v)
 			}
 			rows.Close()
-			dbt.mustExec("DROP TABLE IF EXISTS test")
+			dbt.mustExec("DROP TABLE IF EXISTS controller model utils zero")
 		}
 	})
 }
@@ -489,11 +489,11 @@ func TestString(t *testing.T) {
 		var rows *sql.Rows
 
 		for _, v := range types {
-			dbt.mustExec("CREATE TABLE test (value " + v + ") CHARACTER SET utf8")
+			dbt.mustExec("CREATE TABLE controller model utils zero (value " + v + ") CHARACTER SET utf8")
 
-			dbt.mustExec("INSERT INTO test VALUES (?)", in)
+			dbt.mustExec("INSERT INTO controller model utils zero VALUES (?)", in)
 
-			rows = dbt.mustQuery("SELECT value FROM test")
+			rows = dbt.mustQuery("SELECT value FROM controller model utils zero")
 			if rows.Next() {
 				rows.Scan(&out)
 				if in != out {
@@ -504,11 +504,11 @@ func TestString(t *testing.T) {
 			}
 			rows.Close()
 
-			dbt.mustExec("DROP TABLE IF EXISTS test")
+			dbt.mustExec("DROP TABLE IF EXISTS controller model utils zero")
 		}
 
 		// BLOB
-		dbt.mustExec("CREATE TABLE test (id int, value BLOB) CHARACTER SET utf8")
+		dbt.mustExec("CREATE TABLE controller model utils zero (id int, value BLOB) CHARACTER SET utf8")
 
 		id := 2
 		in = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, " +
@@ -519,9 +519,9 @@ func TestString(t *testing.T) {
 			"sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, " +
 			"sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. " +
 			"Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-		dbt.mustExec("INSERT INTO test VALUES (?, ?)", id, in)
+		dbt.mustExec("INSERT INTO controller model utils zero VALUES (?, ?)", id, in)
 
-		err := dbt.db.QueryRow("SELECT value FROM test WHERE id = ?", id).Scan(&out)
+		err := dbt.db.QueryRow("SELECT value FROM controller model utils zero WHERE id = ?", id).Scan(&out)
 		if err != nil {
 			dbt.Fatalf("Error on BLOB-Query: %s", err.Error())
 		} else if out != in {
@@ -573,9 +573,9 @@ func TestValuer(t *testing.T) {
 		var out string
 		var rows *sql.Rows
 
-		dbt.mustExec("CREATE TABLE test (value VARCHAR(255)) CHARACTER SET utf8")
-		dbt.mustExec("INSERT INTO test VALUES (?)", in)
-		rows = dbt.mustQuery("SELECT value FROM test")
+		dbt.mustExec("CREATE TABLE controller model utils zero (value VARCHAR(255)) CHARACTER SET utf8")
+		dbt.mustExec("INSERT INTO controller model utils zero VALUES (?)", in)
+		rows = dbt.mustQuery("SELECT value FROM controller model utils zero")
 		if rows.Next() {
 			rows.Scan(&out)
 			if in.value != out {
@@ -586,7 +586,7 @@ func TestValuer(t *testing.T) {
 		}
 		rows.Close()
 
-		dbt.mustExec("DROP TABLE IF EXISTS test")
+		dbt.mustExec("DROP TABLE IF EXISTS controller model utils zero")
 	})
 }
 
@@ -880,11 +880,11 @@ func TestTimestampMicros(t *testing.T) {
 			rows.Close()
 		}
 		if !microsecsSupported {
-			// skip test
+			// skip controller model utils zero
 			return
 		}
 		_, err := dbt.db.Exec(`
-			CREATE TABLE test (
+			CREATE TABLE controller model utils zero (
 				value0 TIMESTAMP NOT NULL DEFAULT '` + f0 + `',
 				value1 TIMESTAMP(1) NOT NULL DEFAULT '` + f1 + `',
 				value6 TIMESTAMP(6) NOT NULL DEFAULT '` + f6 + `'
@@ -893,13 +893,13 @@ func TestTimestampMicros(t *testing.T) {
 		if err != nil {
 			dbt.Error(err)
 		}
-		defer dbt.mustExec("DROP TABLE IF EXISTS test")
-		dbt.mustExec("INSERT INTO test SET value0=?, value1=?, value6=?", f0, f1, f6)
+		defer dbt.mustExec("DROP TABLE IF EXISTS controller model utils zero")
+		dbt.mustExec("INSERT INTO controller model utils zero SET value0=?, value1=?, value6=?", f0, f1, f6)
 		var res0, res1, res6 string
-		rows := dbt.mustQuery("SELECT * FROM test")
+		rows := dbt.mustQuery("SELECT * FROM controller model utils zero")
 		defer rows.Close()
 		if !rows.Next() {
-			dbt.Errorf("test contained no selectable values")
+			dbt.Errorf("controller model utils zero contained no selectable values")
 		}
 		err = rows.Scan(&res0, &res1, &res6)
 		if err != nil {
@@ -1050,12 +1050,12 @@ func TestNULL(t *testing.T) {
 		}
 
 		// Insert NULL
-		dbt.mustExec("CREATE TABLE test (dummmy1 int, value int, dummy2 int)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (dummmy1 int, value int, dummy2 int)")
 
-		dbt.mustExec("INSERT INTO test VALUES (?, ?, ?)", 1, nil, 2)
+		dbt.mustExec("INSERT INTO controller model utils zero VALUES (?, ?, ?)", 1, nil, 2)
 
 		var out interface{}
-		rows := dbt.mustQuery("SELECT * FROM test")
+		rows := dbt.mustQuery("SELECT * FROM controller model utils zero")
 		defer rows.Close()
 		if rows.Next() {
 			rows.Scan(&out)
@@ -1125,7 +1125,7 @@ func TestLongData(t *testing.T) {
 			maxAllowedPacketSize = 1 << 25
 		}
 
-		dbt.mustExec("CREATE TABLE test (value LONGBLOB)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (value LONGBLOB)")
 
 		in := strings.Repeat(`a`, maxAllowedPacketSize+1)
 		var out string
@@ -1134,8 +1134,8 @@ func TestLongData(t *testing.T) {
 		// Long text data
 		const nonDataQueryLen = 28 // length query w/o value
 		inS := in[:maxAllowedPacketSize-nonDataQueryLen]
-		dbt.mustExec("INSERT INTO test VALUES('" + inS + "')")
-		rows = dbt.mustQuery("SELECT value FROM test")
+		dbt.mustExec("INSERT INTO controller model utils zero VALUES('" + inS + "')")
+		rows = dbt.mustQuery("SELECT value FROM controller model utils zero")
 		defer rows.Close()
 		if rows.Next() {
 			rows.Scan(&out)
@@ -1150,11 +1150,11 @@ func TestLongData(t *testing.T) {
 		}
 
 		// Empty table
-		dbt.mustExec("TRUNCATE TABLE test")
+		dbt.mustExec("TRUNCATE TABLE controller model utils zero")
 
 		// Long binary data
-		dbt.mustExec("INSERT INTO test VALUES(?)", in)
-		rows = dbt.mustQuery("SELECT value FROM test WHERE 1=?", 1)
+		dbt.mustExec("INSERT INTO controller model utils zero VALUES(?)", in)
+		rows = dbt.mustQuery("SELECT value FROM controller model utils zero WHERE 1=?", 1)
 		defer rows.Close()
 		if rows.Next() {
 			rows.Scan(&out)
@@ -1177,7 +1177,7 @@ func TestLongData(t *testing.T) {
 func TestLoadData(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
 		verifyLoadDataResult := func() {
-			rows, err := dbt.db.Query("SELECT * FROM test")
+			rows, err := dbt.db.Query("SELECT * FROM controller model utils zero")
 			if err != nil {
 				dbt.Fatal(err.Error())
 			}
@@ -1216,8 +1216,8 @@ func TestLoadData(t *testing.T) {
 			}
 		}
 
-		dbt.db.Exec("DROP TABLE IF EXISTS test")
-		dbt.mustExec("CREATE TABLE test (id INT NOT NULL PRIMARY KEY, value TEXT NOT NULL) CHARACTER SET utf8")
+		dbt.db.Exec("DROP TABLE IF EXISTS controller model utils zero")
+		dbt.mustExec("CREATE TABLE controller model utils zero (id INT NOT NULL PRIMARY KEY, value TEXT NOT NULL) CHARACTER SET utf8")
 
 		// Local File
 		file, err := ioutil.TempFile("", "gotest")
@@ -1228,9 +1228,9 @@ func TestLoadData(t *testing.T) {
 		RegisterLocalFile(file.Name())
 
 		// Try first with empty file
-		dbt.mustExec(fmt.Sprintf("LOAD DATA LOCAL INFILE %q INTO TABLE test", file.Name()))
+		dbt.mustExec(fmt.Sprintf("LOAD DATA LOCAL INFILE %q INTO TABLE controller model utils zero", file.Name()))
 		var count int
-		err = dbt.db.QueryRow("SELECT COUNT(*) FROM test").Scan(&count)
+		err = dbt.db.QueryRow("SELECT COUNT(*) FROM controller model utils zero").Scan(&count)
 		if err != nil {
 			dbt.Fatal(err.Error())
 		}
@@ -1241,11 +1241,11 @@ func TestLoadData(t *testing.T) {
 		// Then fille File with data and try to load it
 		file.WriteString("1\ta string\n2\ta string containing a \\t\n3\ta string containing a \\n\n4\ta string containing both \\t\\n\n")
 		file.Close()
-		dbt.mustExec(fmt.Sprintf("LOAD DATA LOCAL INFILE %q INTO TABLE test", file.Name()))
+		dbt.mustExec(fmt.Sprintf("LOAD DATA LOCAL INFILE %q INTO TABLE controller model utils zero", file.Name()))
 		verifyLoadDataResult()
 
 		// Try with non-existing file
-		_, err = dbt.db.Exec("LOAD DATA LOCAL INFILE 'doesnotexist' INTO TABLE test")
+		_, err = dbt.db.Exec("LOAD DATA LOCAL INFILE 'doesnotexist' INTO TABLE controller model utils zero")
 		if err == nil {
 			dbt.Fatal("load non-existent file didn't fail")
 		} else if err.Error() != "local file 'doesnotexist' is not registered" {
@@ -1253,20 +1253,20 @@ func TestLoadData(t *testing.T) {
 		}
 
 		// Empty table
-		dbt.mustExec("TRUNCATE TABLE test")
+		dbt.mustExec("TRUNCATE TABLE controller model utils zero")
 
 		// Reader
-		RegisterReaderHandler("test", func() io.Reader {
+		RegisterReaderHandler("controller model utils zero", func() io.Reader {
 			file, err = os.Open(file.Name())
 			if err != nil {
 				dbt.Fatal(err)
 			}
 			return file
 		})
-		dbt.mustExec("LOAD DATA LOCAL INFILE 'Reader::test' INTO TABLE test")
+		dbt.mustExec("LOAD DATA LOCAL INFILE 'Reader::controller model utils zero' INTO TABLE controller model utils zero")
 		verifyLoadDataResult()
-		// negative test
-		_, err = dbt.db.Exec("LOAD DATA LOCAL INFILE 'Reader::doesnotexist' INTO TABLE test")
+		// negative controller model utils zero
+		_, err = dbt.db.Exec("LOAD DATA LOCAL INFILE 'Reader::doesnotexist' INTO TABLE controller model utils zero")
 		if err == nil {
 			dbt.Fatal("load non-existent Reader didn't fail")
 		} else if err.Error() != "Reader 'doesnotexist' is not registered" {
@@ -1277,10 +1277,10 @@ func TestLoadData(t *testing.T) {
 
 func TestFoundRows(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
-		dbt.mustExec("CREATE TABLE test (id INT NOT NULL ,data INT NOT NULL)")
-		dbt.mustExec("INSERT INTO test (id, data) VALUES (0, 0),(0, 0),(1, 0),(1, 0),(1, 1)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (id INT NOT NULL ,data INT NOT NULL)")
+		dbt.mustExec("INSERT INTO controller model utils zero (id, data) VALUES (0, 0),(0, 0),(1, 0),(1, 0),(1, 1)")
 
-		res := dbt.mustExec("UPDATE test SET data = 1 WHERE id = 0")
+		res := dbt.mustExec("UPDATE controller model utils zero SET data = 1 WHERE id = 0")
 		count, err := res.RowsAffected()
 		if err != nil {
 			dbt.Fatalf("res.RowsAffected() returned error: %s", err.Error())
@@ -1288,7 +1288,7 @@ func TestFoundRows(t *testing.T) {
 		if count != 2 {
 			dbt.Fatalf("Expected 2 affected rows, got %d", count)
 		}
-		res = dbt.mustExec("UPDATE test SET data = 1 WHERE id = 1")
+		res = dbt.mustExec("UPDATE controller model utils zero SET data = 1 WHERE id = 1")
 		count, err = res.RowsAffected()
 		if err != nil {
 			dbt.Fatalf("res.RowsAffected() returned error: %s", err.Error())
@@ -1298,10 +1298,10 @@ func TestFoundRows(t *testing.T) {
 		}
 	})
 	runTests(t, dsn+"&clientFoundRows=true", func(dbt *DBTest) {
-		dbt.mustExec("CREATE TABLE test (id INT NOT NULL ,data INT NOT NULL)")
-		dbt.mustExec("INSERT INTO test (id, data) VALUES (0, 0),(0, 0),(1, 0),(1, 0),(1, 1)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (id INT NOT NULL ,data INT NOT NULL)")
+		dbt.mustExec("INSERT INTO controller model utils zero (id, data) VALUES (0, 0),(0, 0),(1, 0),(1, 0),(1, 1)")
 
-		res := dbt.mustExec("UPDATE test SET data = 1 WHERE id = 0")
+		res := dbt.mustExec("UPDATE controller model utils zero SET data = 1 WHERE id = 0")
 		count, err := res.RowsAffected()
 		if err != nil {
 			dbt.Fatalf("res.RowsAffected() returned error: %s", err.Error())
@@ -1309,7 +1309,7 @@ func TestFoundRows(t *testing.T) {
 		if count != 2 {
 			dbt.Fatalf("Expected 2 matched rows, got %d", count)
 		}
-		res = dbt.mustExec("UPDATE test SET data = 1 WHERE id = 1")
+		res = dbt.mustExec("UPDATE controller model utils zero SET data = 1 WHERE id = 1")
 		count, err = res.RowsAffected()
 		if err != nil {
 			dbt.Fatalf("res.RowsAffected() returned error: %s", err.Error())
@@ -1363,7 +1363,7 @@ func TestTLS(t *testing.T) {
 }
 
 func TestReuseClosedConnection(t *testing.T) {
-	// this test does not use sql.database, it uses the driver directly
+	// this controller model utils zero does not use sql.database, it uses the driver directly
 	if !available {
 		t.Skipf("MySQL server not running on %s", netAddr)
 	}
@@ -1421,7 +1421,7 @@ func TestCharset(t *testing.T) {
 		})
 	}
 
-	// non utf8 test
+	// non utf8 controller model utils zero
 	mustSetCharset("charset=ascii", "ascii")
 
 	// when the first charset is invalid, use the second
@@ -1526,18 +1526,18 @@ func TestRawBytesResultExceedsBuffer(t *testing.T) {
 func TestTimezoneConversion(t *testing.T) {
 	zones := []string{"UTC", "US/Central", "US/Pacific", "Local"}
 
-	// Regression test for timezone handling
+	// Regression controller model utils zero for timezone handling
 	tzTest := func(dbt *DBTest) {
 		// Create table
-		dbt.mustExec("CREATE TABLE test (ts TIMESTAMP)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (ts TIMESTAMP)")
 
 		// Insert local time into database (should be converted)
 		usCentral, _ := time.LoadLocation("US/Central")
 		reftime := time.Date(2014, 05, 30, 18, 03, 17, 0, time.UTC).In(usCentral)
-		dbt.mustExec("INSERT INTO test VALUE (?)", reftime)
+		dbt.mustExec("INSERT INTO controller model utils zero VALUE (?)", reftime)
 
 		// Retrieve time from DB
-		rows := dbt.mustQuery("SELECT ts FROM test")
+		rows := dbt.mustQuery("SELECT ts FROM controller model utils zero")
 		defer rows.Close()
 		if !rows.Next() {
 			dbt.Fatal("did not get any rows out")
@@ -1741,7 +1741,7 @@ func TestStmtMultiRows(t *testing.T) {
 	})
 }
 
-// Regression test for
+// Regression controller model utils zero for
 // * more than 32 NULL parameters (issue 209)
 // * more parameters than fit into the buffer (issue 201)
 // * parameters * 64 > max_allowed_packet (issue 734)
@@ -1863,7 +1863,7 @@ func testDialError(t *testing.T, dialErr error, expectErr error) {
 }
 
 func TestDialUnknownError(t *testing.T) {
-	testErr := fmt.Errorf("test")
+	testErr := fmt.Errorf("controller model utils zero")
 	testDialError(t, testErr, testErr)
 }
 
@@ -1903,13 +1903,13 @@ func TestCustomDial(t *testing.T) {
 func TestSQLInjection(t *testing.T) {
 	createTest := func(arg string) func(dbt *DBTest) {
 		return func(dbt *DBTest) {
-			dbt.mustExec("CREATE TABLE test (v INTEGER)")
-			dbt.mustExec("INSERT INTO test VALUES (?)", 1)
+			dbt.mustExec("CREATE TABLE controller model utils zero (v INTEGER)")
+			dbt.mustExec("INSERT INTO controller model utils zero VALUES (?)", 1)
 
 			var v int
 			// NULL can't be equal to anything, the idea here is to inject query so it returns row
-			// This test verifies that escapeQuotes and escapeBackslash are working properly
-			err := dbt.db.QueryRow("SELECT v FROM test WHERE NULL = ?", arg).Scan(&v)
+			// This controller model utils zero verifies that escapeQuotes and escapeBackslash are working properly
+			err := dbt.db.QueryRow("SELECT v FROM controller model utils zero WHERE NULL = ?", arg).Scan(&v)
 			if err == sql.ErrNoRows {
 				return // success, sql injection failed
 			} else if err == nil {
@@ -1933,14 +1933,14 @@ func TestSQLInjection(t *testing.T) {
 // Test if inserted data is correctly retrieved after being escaped
 func TestInsertRetrieveEscapedData(t *testing.T) {
 	testData := func(dbt *DBTest) {
-		dbt.mustExec("CREATE TABLE test (v VARCHAR(255))")
+		dbt.mustExec("CREATE TABLE controller model utils zero (v VARCHAR(255))")
 
 		// All sequences that are escaped by escapeQuotes and escapeBackslash
 		v := "foo \x00\n\r\x1a\"'\\"
-		dbt.mustExec("INSERT INTO test VALUES (?)", v)
+		dbt.mustExec("INSERT INTO controller model utils zero VALUES (?)", v)
 
 		var out string
-		err := dbt.db.QueryRow("SELECT v FROM test").Scan(&out)
+		err := dbt.db.QueryRow("SELECT v FROM controller model utils zero").Scan(&out)
 		if err != nil {
 			dbt.Fatalf("%s", err.Error())
 		}
@@ -2060,11 +2060,11 @@ func TestColumnsReusesSlice(t *testing.T) {
 		rs: resultSet{
 			columns: []mysqlField{
 				{
-					tableName: "test",
+					tableName: "controller model utils zero",
 					name:      "A",
 				},
 				{
-					tableName: "test",
+					tableName: "controller model utils zero",
 					name:      "B",
 				},
 			},
@@ -2091,33 +2091,33 @@ func TestColumnsReusesSlice(t *testing.T) {
 func TestRejectReadOnly(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
 		// Create Table
-		dbt.mustExec("CREATE TABLE test (value BOOL)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (value BOOL)")
 		// Set the session to read-only. We didn't set the `rejectReadOnly`
 		// option, so any writes after this should fail.
 		_, err := dbt.db.Exec("SET SESSION TRANSACTION READ ONLY")
-		// Error 1193: Unknown system variable 'TRANSACTION' => skip test,
+		// Error 1193: Unknown system variable 'TRANSACTION' => skip controller model utils zero,
 		// MySQL server version is too old
 		maybeSkip(t, err, 1193)
-		if _, err := dbt.db.Exec("DROP TABLE test"); err == nil {
+		if _, err := dbt.db.Exec("DROP TABLE controller model utils zero"); err == nil {
 			t.Fatalf("writing to DB in read-only session without " +
 				"rejectReadOnly did not error")
 		}
 		// Set the session back to read-write so runTests() can properly clean
-		// up the table `test`.
+		// up the table `controller model utils zero`.
 		dbt.mustExec("SET SESSION TRANSACTION READ WRITE")
 	})
 
 	// Enable the `rejectReadOnly` option.
 	runTests(t, dsn+"&rejectReadOnly=true", func(dbt *DBTest) {
 		// Create Table
-		dbt.mustExec("CREATE TABLE test (value BOOL)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (value BOOL)")
 		// Set the session to read only. Any writes after this should error on
 		// a driver.ErrBadConn, and cause `database/sql` to initiate a new
 		// connection.
 		dbt.mustExec("SET SESSION TRANSACTION READ ONLY")
 		// This would error, but `database/sql` should automatically retry on a
 		// new connection which is not read-only, and eventually succeed.
-		dbt.mustExec("DROP TABLE test")
+		dbt.mustExec("DROP TABLE controller model utils zero")
 	})
 }
 
@@ -2193,14 +2193,14 @@ func TestMultiResultSet(t *testing.T) {
 		columns []string
 	}
 
-	// checkRows is a helper test function to validate rows containing 3 result
+	// checkRows is a helper controller model utils zero function to validate rows containing 3 result
 	// sets with specific values and columns. The basic query would look like this:
 	//
 	// SELECT 1 AS col1, 2 AS col2 UNION SELECT 3, 4;
 	// SELECT 0 UNION SELECT 1;
 	// SELECT 1 AS col1, 2 AS col2, 3 AS col3 UNION SELECT 4, 5, 6;
 	//
-	// to distinguish test cases the first string argument is put in front of
+	// to distinguish controller model utils zero cases the first string argument is put in front of
 	// every error or fatal message.
 	checkRows := func(desc string, rows *sql.Rows, dbt *DBTest) {
 		expected := []result{
@@ -2379,7 +2379,7 @@ func TestPingContext(t *testing.T) {
 
 func TestContextCancelExec(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
-		dbt.mustExec("CREATE TABLE test (v INTEGER)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (v INTEGER)")
 		ctx, cancel := context.WithCancel(context.Background())
 
 		// Delay execution for just a bit until db.ExecContext has begun.
@@ -2387,7 +2387,7 @@ func TestContextCancelExec(t *testing.T) {
 
 		// This query will be canceled.
 		startTime := time.Now()
-		if _, err := dbt.db.ExecContext(ctx, "INSERT INTO test VALUES (SLEEP(1))"); err != context.Canceled {
+		if _, err := dbt.db.ExecContext(ctx, "INSERT INTO controller model utils zero VALUES (SLEEP(1))"); err != context.Canceled {
 			dbt.Errorf("expected context.Canceled, got %v", err)
 		}
 		if d := time.Since(startTime); d > 500*time.Millisecond {
@@ -2399,7 +2399,7 @@ func TestContextCancelExec(t *testing.T) {
 
 		// Check how many times the query is executed.
 		var v int
-		if err := dbt.db.QueryRow("SELECT COUNT(*) FROM test").Scan(&v); err != nil {
+		if err := dbt.db.QueryRow("SELECT COUNT(*) FROM controller model utils zero").Scan(&v); err != nil {
 			dbt.Fatalf("%s", err.Error())
 		}
 		if v != 1 { // TODO: need to kill the query, and v should be 0.
@@ -2407,14 +2407,14 @@ func TestContextCancelExec(t *testing.T) {
 		}
 
 		// Context is already canceled, so error should come before execution.
-		if _, err := dbt.db.ExecContext(ctx, "INSERT INTO test VALUES (1)"); err == nil {
+		if _, err := dbt.db.ExecContext(ctx, "INSERT INTO controller model utils zero VALUES (1)"); err == nil {
 			dbt.Error("expected error")
 		} else if err.Error() != "context canceled" {
 			dbt.Fatalf("unexpected error: %s", err)
 		}
 
 		// The second insert query will fail, so the table has no changes.
-		if err := dbt.db.QueryRow("SELECT COUNT(*) FROM test").Scan(&v); err != nil {
+		if err := dbt.db.QueryRow("SELECT COUNT(*) FROM controller model utils zero").Scan(&v); err != nil {
 			dbt.Fatalf("%s", err.Error())
 		}
 		if v != 1 {
@@ -2425,7 +2425,7 @@ func TestContextCancelExec(t *testing.T) {
 
 func TestContextCancelQuery(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
-		dbt.mustExec("CREATE TABLE test (v INTEGER)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (v INTEGER)")
 		ctx, cancel := context.WithCancel(context.Background())
 
 		// Delay execution for just a bit until db.ExecContext has begun.
@@ -2433,7 +2433,7 @@ func TestContextCancelQuery(t *testing.T) {
 
 		// This query will be canceled.
 		startTime := time.Now()
-		if _, err := dbt.db.QueryContext(ctx, "INSERT INTO test VALUES (SLEEP(1))"); err != context.Canceled {
+		if _, err := dbt.db.QueryContext(ctx, "INSERT INTO controller model utils zero VALUES (SLEEP(1))"); err != context.Canceled {
 			dbt.Errorf("expected context.Canceled, got %v", err)
 		}
 		if d := time.Since(startTime); d > 500*time.Millisecond {
@@ -2445,7 +2445,7 @@ func TestContextCancelQuery(t *testing.T) {
 
 		// Check how many times the query is executed.
 		var v int
-		if err := dbt.db.QueryRow("SELECT COUNT(*) FROM test").Scan(&v); err != nil {
+		if err := dbt.db.QueryRow("SELECT COUNT(*) FROM controller model utils zero").Scan(&v); err != nil {
 			dbt.Fatalf("%s", err.Error())
 		}
 		if v != 1 { // TODO: need to kill the query, and v should be 0.
@@ -2453,12 +2453,12 @@ func TestContextCancelQuery(t *testing.T) {
 		}
 
 		// Context is already canceled, so error should come before execution.
-		if _, err := dbt.db.QueryContext(ctx, "INSERT INTO test VALUES (1)"); err != context.Canceled {
+		if _, err := dbt.db.QueryContext(ctx, "INSERT INTO controller model utils zero VALUES (1)"); err != context.Canceled {
 			dbt.Errorf("expected context.Canceled, got %v", err)
 		}
 
 		// The second insert query will fail, so the table has no changes.
-		if err := dbt.db.QueryRow("SELECT COUNT(*) FROM test").Scan(&v); err != nil {
+		if err := dbt.db.QueryRow("SELECT COUNT(*) FROM controller model utils zero").Scan(&v); err != nil {
 			dbt.Fatalf("%s", err.Error())
 		}
 		if v != 1 {
@@ -2469,11 +2469,11 @@ func TestContextCancelQuery(t *testing.T) {
 
 func TestContextCancelQueryRow(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
-		dbt.mustExec("CREATE TABLE test (v INTEGER)")
-		dbt.mustExec("INSERT INTO test VALUES (1), (2), (3)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (v INTEGER)")
+		dbt.mustExec("INSERT INTO controller model utils zero VALUES (1), (2), (3)")
 		ctx, cancel := context.WithCancel(context.Background())
 
-		rows, err := dbt.db.QueryContext(ctx, "SELECT v FROM test")
+		rows, err := dbt.db.QueryContext(ctx, "SELECT v FROM controller model utils zero")
 		if err != nil {
 			dbt.Fatalf("%s", err.Error())
 		}
@@ -2512,9 +2512,9 @@ func TestContextCancelPrepare(t *testing.T) {
 
 func TestContextCancelStmtExec(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
-		dbt.mustExec("CREATE TABLE test (v INTEGER)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (v INTEGER)")
 		ctx, cancel := context.WithCancel(context.Background())
-		stmt, err := dbt.db.PrepareContext(ctx, "INSERT INTO test VALUES (SLEEP(1))")
+		stmt, err := dbt.db.PrepareContext(ctx, "INSERT INTO controller model utils zero VALUES (SLEEP(1))")
 		if err != nil {
 			dbt.Fatalf("unexpected error: %v", err)
 		}
@@ -2536,7 +2536,7 @@ func TestContextCancelStmtExec(t *testing.T) {
 
 		// Check how many times the query is executed.
 		var v int
-		if err := dbt.db.QueryRow("SELECT COUNT(*) FROM test").Scan(&v); err != nil {
+		if err := dbt.db.QueryRow("SELECT COUNT(*) FROM controller model utils zero").Scan(&v); err != nil {
 			dbt.Fatalf("%s", err.Error())
 		}
 		if v != 1 { // TODO: need to kill the query, and v should be 0.
@@ -2547,9 +2547,9 @@ func TestContextCancelStmtExec(t *testing.T) {
 
 func TestContextCancelStmtQuery(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
-		dbt.mustExec("CREATE TABLE test (v INTEGER)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (v INTEGER)")
 		ctx, cancel := context.WithCancel(context.Background())
-		stmt, err := dbt.db.PrepareContext(ctx, "INSERT INTO test VALUES (SLEEP(1))")
+		stmt, err := dbt.db.PrepareContext(ctx, "INSERT INTO controller model utils zero VALUES (SLEEP(1))")
 		if err != nil {
 			dbt.Fatalf("unexpected error: %v", err)
 		}
@@ -2571,7 +2571,7 @@ func TestContextCancelStmtQuery(t *testing.T) {
 
 		// Check how many times the query is executed.
 		var v int
-		if err := dbt.db.QueryRow("SELECT COUNT(*) FROM test").Scan(&v); err != nil {
+		if err := dbt.db.QueryRow("SELECT COUNT(*) FROM controller model utils zero").Scan(&v); err != nil {
 			dbt.Fatalf("%s", err.Error())
 		}
 		if v != 1 { // TODO: need to kill the query, and v should be 0.
@@ -2582,7 +2582,7 @@ func TestContextCancelStmtQuery(t *testing.T) {
 
 func TestContextCancelBegin(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
-		dbt.mustExec("CREATE TABLE test (v INTEGER)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (v INTEGER)")
 		ctx, cancel := context.WithCancel(context.Background())
 		tx, err := dbt.db.BeginTx(ctx, nil)
 		if err != nil {
@@ -2594,7 +2594,7 @@ func TestContextCancelBegin(t *testing.T) {
 
 		// This query will be canceled.
 		startTime := time.Now()
-		if _, err := tx.ExecContext(ctx, "INSERT INTO test VALUES (SLEEP(1))"); err != context.Canceled {
+		if _, err := tx.ExecContext(ctx, "INSERT INTO controller model utils zero VALUES (SLEEP(1))"); err != context.Canceled {
 			dbt.Errorf("expected context.Canceled, got %v", err)
 		}
 		if d := time.Since(startTime); d > 500*time.Millisecond {
@@ -2623,7 +2623,7 @@ func TestContextCancelBegin(t *testing.T) {
 
 func TestContextBeginIsolationLevel(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
-		dbt.mustExec("CREATE TABLE test (v INTEGER)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (v INTEGER)")
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
@@ -2641,13 +2641,13 @@ func TestContextBeginIsolationLevel(t *testing.T) {
 			dbt.Fatal(err)
 		}
 
-		_, err = tx1.ExecContext(ctx, "INSERT INTO test VALUES (1)")
+		_, err = tx1.ExecContext(ctx, "INSERT INTO controller model utils zero VALUES (1)")
 		if err != nil {
 			dbt.Fatal(err)
 		}
 
 		var v int
-		row := tx2.QueryRowContext(ctx, "SELECT COUNT(*) FROM test")
+		row := tx2.QueryRowContext(ctx, "SELECT COUNT(*) FROM controller model utils zero")
 		if err := row.Scan(&v); err != nil {
 			dbt.Fatal(err)
 		}
@@ -2661,7 +2661,7 @@ func TestContextBeginIsolationLevel(t *testing.T) {
 			dbt.Fatal(err)
 		}
 
-		row = tx2.QueryRowContext(ctx, "SELECT COUNT(*) FROM test")
+		row = tx2.QueryRowContext(ctx, "SELECT COUNT(*) FROM controller model utils zero")
 		if err := row.Scan(&v); err != nil {
 			dbt.Fatal(err)
 		}
@@ -2675,7 +2675,7 @@ func TestContextBeginIsolationLevel(t *testing.T) {
 
 func TestContextBeginReadOnly(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
-		dbt.mustExec("CREATE TABLE test (v INTEGER)")
+		dbt.mustExec("CREATE TABLE controller model utils zero (v INTEGER)")
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
@@ -2690,14 +2690,14 @@ func TestContextBeginReadOnly(t *testing.T) {
 		}
 
 		// INSERT queries fail in a READ ONLY transaction.
-		_, err = tx.ExecContext(ctx, "INSERT INTO test VALUES (1)")
+		_, err = tx.ExecContext(ctx, "INSERT INTO controller model utils zero VALUES (1)")
 		if _, ok := err.(*MySQLError); !ok {
 			dbt.Errorf("expected MySQLError, got %v", err)
 		}
 
 		// SELECT queries can be executed.
 		var v int
-		row := tx.QueryRowContext(ctx, "SELECT COUNT(*) FROM test")
+		row := tx.QueryRowContext(ctx, "SELECT COUNT(*) FROM controller model utils zero")
 		if err := row.Scan(&v); err != nil {
 			dbt.Fatal(err)
 		}
@@ -2811,10 +2811,10 @@ func TestRowsColumnTypes(t *testing.T) {
 	}
 	for _, testdsn := range dsns {
 		runTests(t, testdsn, func(dbt *DBTest) {
-			dbt.mustExec("CREATE TABLE test (" + schema + ")")
-			dbt.mustExec("INSERT INTO test VALUES (" + values1 + "), (" + values2 + "), (" + values3 + ")")
+			dbt.mustExec("CREATE TABLE controller model utils zero (" + schema + ")")
+			dbt.mustExec("INSERT INTO controller model utils zero VALUES (" + values1 + "), (" + values2 + "), (" + values3 + ")")
 
-			rows, err := dbt.db.Query("SELECT * FROM test")
+			rows, err := dbt.db.Query("SELECT * FROM controller model utils zero")
 			if err != nil {
 				t.Fatalf("Query: %v", err)
 			}
@@ -2934,14 +2934,14 @@ func TestRowsColumnTypes(t *testing.T) {
 
 func TestValuerWithValueReceiverGivenNilValue(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
-		dbt.mustExec("CREATE TABLE test (value VARCHAR(255))")
-		dbt.db.Exec("INSERT INTO test VALUES (?)", (*testValuer)(nil))
-		// This test will panic on the INSERT if ConvertValue() does not check for typed nil before calling Value()
+		dbt.mustExec("CREATE TABLE controller model utils zero (value VARCHAR(255))")
+		dbt.db.Exec("INSERT INTO controller model utils zero VALUES (?)", (*testValuer)(nil))
+		// This controller model utils zero will panic on the INSERT if ConvertValue() does not check for typed nil before calling Value()
 	})
 }
 
 // TestRawBytesAreNotModified checks for a race condition that arises when a query context
-// is canceled while a user is calling rows.Scan. This is a more stringent test than the one
+// is canceled while a user is calling rows.Scan. This is a more stringent controller model utils zero than the one
 // proposed in https://github.com/golang/go/issues/23519. Here we're explicitly using
 // `sql.RawBytes` to check the contents of our internal buffers are not modified after an implicit
 // call to `Rows.Close`, so Context cancellation should **not** invalidate the backing buffers.
@@ -2957,9 +2957,9 @@ func TestRawBytesAreNotModified(t *testing.T) {
 	}
 
 	runTests(t, dsn, func(dbt *DBTest) {
-		dbt.mustExec("CREATE TABLE test (id int, value BLOB) CHARACTER SET utf8")
+		dbt.mustExec("CREATE TABLE controller model utils zero (id int, value BLOB) CHARACTER SET utf8")
 		for i := 0; i < insertRows; i++ {
-			dbt.mustExec("INSERT INTO test VALUES (?, ?)", i+1, sqlBlobs[i&1])
+			dbt.mustExec("INSERT INTO controller model utils zero VALUES (?, ?)", i+1, sqlBlobs[i&1])
 		}
 
 		for i := 0; i < contextRaceIterations; i++ {
@@ -2967,7 +2967,7 @@ func TestRawBytesAreNotModified(t *testing.T) {
 				ctx, cancel := context.WithCancel(context.Background())
 				defer cancel()
 
-				rows, err := dbt.db.QueryContext(ctx, `SELECT id, value FROM test`)
+				rows, err := dbt.db.QueryContext(ctx, `SELECT id, value FROM controller model utils zero`)
 				if err != nil {
 					t.Fatal(err)
 				}
@@ -3007,7 +3007,7 @@ func TestConnectorObeysDialTimeouts(t *testing.T) {
 	RegisterDialContext("dialctxtest", func(ctx context.Context, addr string) (net.Conn, error) {
 		var d net.Dialer
 		if !ctx.Value(dialCtxKey{}).(bool) {
-			return nil, fmt.Errorf("test error: query context is not propagated to our dialer")
+			return nil, fmt.Errorf("controller model utils zero error: query context is not propagated to our dialer")
 		}
 		return d.DialContext(ctx, prot, addr)
 	})

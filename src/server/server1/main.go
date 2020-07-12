@@ -19,4 +19,4 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 //注意main 方法所在的包要是main包
-//fmt.Print("hello word!")
+//fmt.Print("day2_file word!")
